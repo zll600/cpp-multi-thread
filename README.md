@@ -5,6 +5,7 @@ cpp multi thread
 - example2: Cache Ping-Pong
 - example3: False Sharing
 - example4: struct alignas(64)
+- example5: atomic vs mutex
 
 Ref
 - https://mp.weixin.qq.com/s/18TujefnTj-17GuNgmYW-Q
