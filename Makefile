@@ -26,3 +26,11 @@ example3: example3.cc
 .PHONY: example3-report
 example3-report: example3
 	./example3 > example3.md 2>&1
+
+.PHONY: example4
+example4: example4.cc
+	clang++ -std=c++23 -I$(BENCHMARK_INCLUDE_DIR) example4.cc -L$(BENCHMARK_LIB_DIR) $(BENCHMARK_LIBS) -o example4
+
+.PHONY: example4-report
+example4-report: example4
+	./example4 > example4.md 2>&1
