@@ -9,18 +9,21 @@ constexpr int kSetSize = 10000;
 class MyBenchmark : public benchmark::Fixture {
  public:
   void SetUp(const ::benchmark::State& state) override {
-    std::call_once(flag, [this]() {
+    std::call_once(flag, [this, &state]() {
       for (int i = 0; i < kSetSize; i++) {
         s.insert(i);
       }
+      sums = std::vector<std::atomic<int>>(state.threads());
     });
   }
 
   const std::unordered_set<int>& GetSet() { return s; }
+  std::vector<std::atomic<int>>& GetSums() { return sums; }
 
  private:
   std::unordered_set<int> s;
   std::once_flag flag;
+  std::vector<std::atomic<int>> sums;
 };
 
 BENCHMARK_DEFINE_F(MyBenchmark, MultiThreadedWork)(benchmark::State& state) {
@@ -33,7 +36,7 @@ BENCHMARK_DEFINE_F(MyBenchmark, MultiThreadedWork)(benchmark::State& state) {
     for (int i = start; i < end; i++) {
       auto& inst = GetSet();
       if (inst.count(i) > 0) {
-        benchmark::DoNotOptimize(sum++);
+        benchmark::DoNotOptimize(GetSums()[state.thread_index()]++);
       }
     }
   }
