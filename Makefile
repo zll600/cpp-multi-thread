@@ -58,3 +58,19 @@ example7: example7.cc
 .PHONY: example7-report
 example7-report: example7
 	./example7 > example7.md 2>&1
+
+.PHONY: case1
+case1: case1.cc
+	clang++ -std=c++23 -I$(BENCHMARK_INCLUDE_DIR) case1.cc -L$(BENCHMARK_LIB_DIR) $(BENCHMARK_LIBS) -o case1
+
+.PHONY: case1-report
+case1-report: case1
+	./case1 > case1.md 2>&1
+
+.PHONY: case2
+case2: case2.cc
+	clang++ -std=c++23 -I$(BENCHMARK_INCLUDE_DIR) case2.cc -L$(BENCHMARK_LIB_DIR) $(BENCHMARK_LIBS) -o case2
+
+.PHONY: case2-report
+case2-report: case2
+	./case2 > case2.md 2>&1
